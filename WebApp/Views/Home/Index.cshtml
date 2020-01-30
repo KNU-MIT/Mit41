@@ -1,0 +1,30 @@
+﻿@model List<Book>
+@{
+    ViewData["Title"] = "Книжковий магазин";
+}
+
+<div class="text-center">
+    <div>
+        <h3>Розпродаж книг (@Model.Count)</h3>
+        <table>
+            <tr>
+                <td><p>Назва книги</p></td>
+                <td><p>Автор</p></td>
+                <td><p>Ціна</p></td>
+                <td></td>
+            </tr>
+            @{
+                foreach (var book in Model)
+                {
+                    <tr>
+                        <td><p>@book.Name</p></td>
+                        <td><p>@book.Author</p></td>
+                        <td><p>@book.Price</p></td>
+                        <td><p><a href="/Home/Buy/@book.Id">Купити</a> </p></td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+</div>
