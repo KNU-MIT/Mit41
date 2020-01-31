@@ -60,7 +60,7 @@ namespace WebApp.Controllers
             //зберігаємо у БД всі зміни
             _dbContext.SaveChanges();
 
-            return "Дякуємо, " + purchase.Person + ", за купівлю!";
+            return $"Дякуємо, {purchase.Customer.FirstName} {purchase.Customer.LastName}, за купівлю!";
         }
 
         public IActionResult Edit(int? id)

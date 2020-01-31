@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
@@ -10,8 +7,8 @@ namespace WebApp.Models
         // ID покупки 
         public int PurchaseId { get; set; }
 
-        // ім'я й прізвище покупця 
-        public string Person { get; set; }
+        // Покупець 
+        public Customer Customer { get; set; }
 
         // адреса покупця 
         public string Address { get; set; }
