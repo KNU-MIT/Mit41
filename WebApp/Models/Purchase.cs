@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApp.Models
 {
@@ -7,8 +8,8 @@ namespace WebApp.Models
         // ID покупки 
         public int PurchaseId { get; set; }
 
-        // Покупець 
-        public Customer Customer { get; set; }
+        // Покупець
+        public int CustomerId { get; set; }
 
         // адреса покупця 
         public string Address { get; set; }

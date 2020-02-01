@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using WebApp.Data;
 using WebApp.Models;
-using System.Linq;
-using System;
 
 namespace WebApp.Controllers
 {
@@ -31,7 +33,7 @@ namespace WebApp.Controllers
         {
             //отримуємо з БД всі об'єкти Book
             IEnumerable<Book> books = _dbContext.Books.ToList();
-            
+
             //повертаємо відображення 
             return View(books);
         }
@@ -44,10 +46,14 @@ namespace WebApp.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Controller receives a new <see cref="Book"/> instance and adds it to data base.
+        /// </summary>
+        /// <param name="book">The new instance.</param>
         [HttpPost]
         public IActionResult Create(Book book)
         {
-            if(book !=null)
+            if (book != null)
             {
                 _dbContext.Books.Add(book);
                 _dbContext.SaveChanges();
@@ -57,15 +63,39 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult Buy(int? Id)
+        public async Task<ActionResult> Buy(int? Id)
         {
-            ViewBag.BookId = Id ?? 0;
-            return View();
+            if (!Id.HasValue)
+            {
+                return BadRequest();
+            }
+
+            var book = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == Id.Value);
+
+            if (book != null)
+            {
+                return View(book);
+            }
+
+            return NotFound();
         }
 
         [HttpPost]
-        public string Buy(Purchase purchase)
+        public async Task<ActionResult> Buy(Purchase purchase)
         {
+            if (purchase == null)
+            {
+                return BadRequest();
+            }
+
+            var customer = await _dbContext.Customers
+                .FirstOrDefaultAsync(c => c.Id == purchase.CustomerId);
+
+            if(customer==null)
+            {
+                return BadRequest();
+            }
+
             purchase.Date = DateTime.Now;
 
             //додаємо інформацію про купівлю в БД
@@ -73,12 +103,14 @@ namespace WebApp.Controllers
             //зберігаємо у БД всі зміни
             _dbContext.SaveChanges();
 
-            return $"Дякуємо, {purchase.Customer.FirstName} {purchase.Customer.LastName}, за купівлю!";
+
+
+            return View($"Дякуємо, {customer.FirstName} {customer.LastName}, за купівлю!");
         }
 
         public IActionResult Edit(int? id)
         {
-            if(id!=null)
+            if (id != null)
             {
                 Book book = _dbContext.Books.FirstOrDefault(b => b.Id == id);
                 if (book != null)
@@ -99,7 +131,7 @@ namespace WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-            public IActionResult Privacy()
+        public IActionResult Privacy()
         {
             return View();
         }

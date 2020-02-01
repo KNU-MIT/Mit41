@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Book
+@{
     Layout = null;
 }
 
@@ -13,7 +14,10 @@
     <div>
         <h3>Форма оформлення купівлі</h3>
         <form method="post" action="">
-            <input type="hidden" value="@ViewBag.BookId" name="BookId" />
+            <input type="hidden" value="@Model.Id" name="BookId" />
+            <h4>@Model.Author</h4>
+            <h3>@Model.Name</h3>
+            <h5>@Model.Price (грн.)</h5>
             <table>
                 <tr>
                     <td><p>Введіть своє ім'я</p></td>
