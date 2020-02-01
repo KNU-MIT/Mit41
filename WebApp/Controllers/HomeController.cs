@@ -8,15 +8,25 @@ using System;
 
 namespace WebApp.Controllers
 {
+    /// <summary>
+    /// The Home controller class.
+    /// </summary>
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
 
+        /// <summary>
+        /// Instantiate an instance of the <see cref="HomeController"/> class.
+        /// </summary>
+        /// <param name="dbContext">The <see cref="ApplicationDbContext"/> data base context for injection.</param>
         public HomeController(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Controller shows the set of <see cref="Book"/>s.
+        /// </summary>
         public IActionResult Index()
         {
             //отримуємо з БД всі об'єкти Book
@@ -26,6 +36,9 @@ namespace WebApp.Controllers
             return View(books);
         }
 
+        /// <summary>
+        /// Controller shows the form for creating a new <see cref="Book"/>.
+        /// </summary>
         public IActionResult Create()
         {
             return View();
