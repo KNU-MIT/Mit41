@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApp.Data;
 
-namespace WebApp.Data.Migrations
+namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -186,7 +186,7 @@ namespace WebApp.Data.Migrations
 
             modelBuilder.Entity("WebApp.Models.Book", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -194,7 +194,7 @@ namespace WebApp.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("Price");
+                    b.Property<double>("Price");
 
                     b.HasKey("Id");
 
@@ -203,7 +203,7 @@ namespace WebApp.Data.Migrations
 
             modelBuilder.Entity("WebApp.Models.Customer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -226,11 +226,9 @@ namespace WebApp.Data.Migrations
 
             modelBuilder.Entity("WebApp.Models.Purchase", b =>
                 {
-                    b.Property<int>("PurchaseId")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address");
 
                     b.Property<int>("BookId");
 
@@ -238,7 +236,11 @@ namespace WebApp.Data.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.HasKey("PurchaseId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Purchases");
                 });
@@ -285,6 +287,19 @@ namespace WebApp.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebApp.Models.Purchase", b =>
+                {
+                    b.HasOne("WebApp.Models.Book", "Book")
+                        .WithMany("Purchases")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WebApp.Models.Customer", "Customer")
+                        .WithMany("Purchases")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

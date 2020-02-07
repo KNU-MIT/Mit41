@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WebApp.Data.Migrations
+namespace WebApp.Migrations
 {
-    public partial class _031 : Migration
+    public partial class _1331 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

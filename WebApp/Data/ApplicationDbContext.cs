@@ -15,6 +15,29 @@ namespace WebApp.Data
         {
             
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Purchase>()
+                .HasOne<Book>(purchase => purchase.Book)
+                .WithMany(book => book.Purchases)
+                .HasForeignKey(purchase => purchase.BookId);
+
+
+            // відношення "один-до-багатьох"
+            builder.Entity<Customer>() // сутність, що підлягає налаштуванню
+                .HasMany<Purchase>(customer => customer.Purchases) // головний клас Customer містить колекцію підпорядкованих об'єктів Purchases
+            .WithOne(purchase => purchase.Customer) // кожен такий підпорядкований об'єкт Purchases пов'язаний з одним головним об'єктом Customer
+            .HasForeignKey(purchase => purchase.CustomerId); // у реляційних БД для таблиці Purchases створюється зовнішній ключ, де Purchase.CustomerId == Customer.Id
+
+            //// те ж саме відношення "один-до-багатьох", але описане по-іншому
+            //builder.Entity<Purchase>()
+            //    .HasOne<Customer>(purchase => purchase.Customer)
+            //    .WithMany(customer => customer.Purchases)
+            //    .HasForeignKey(purchase=>purchase.CustomerId);
+        }
     }
 }
 

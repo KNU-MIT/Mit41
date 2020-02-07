@@ -1,23 +1,26 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebApp.Models
 {
     public class Purchase
     {
         // ID покупки 
-        public int PurchaseId { get; set; }
-
-        // Покупець
-        public int CustomerId { get; set; }
-
-        // адреса покупця 
-        public string Address { get; set; }
-
-        // ID книги 
-        public int BookId { get; set; }
+        public int? Id { get; set; }
 
         // дата покупки 
         public DateTime Date { get; set; }
+
+
+
+        // Зовнішній ключ 
+        public int BookId { get; set; }
+        // Навігаційна властивість
+        public Book Book { get; set; }
+
+
+        // Зовнішній ключ
+        public int CustomerId { get; set; }
+        // Навігаційна властивість
+        public Customer Customer { get; set; }
     }
 }

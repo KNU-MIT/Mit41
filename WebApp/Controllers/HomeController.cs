@@ -96,7 +96,10 @@ namespace WebApp.Controllers
                 return BadRequest();
             }
 
+            purchase.Customer = customer;
             purchase.Date = DateTime.Now;
+
+            purchase.Id = null;
 
             //додаємо інформацію про купівлю в БД
             _dbContext.Purchases.Add(purchase);

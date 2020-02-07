@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WebApp.Models
 {
     public class Book
     {
         // ID книги 
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         //назва книги
         public string Name { get; set; }
@@ -17,6 +14,9 @@ namespace WebApp.Models
         public string Author { get; set; }
 
         // цiна 
-        public int Price { get; set; }
+        public double Price { get; set; }
+
+        // Навігаційна властивість
+        public List<Purchase> Purchases { get; set; }
     }
 }

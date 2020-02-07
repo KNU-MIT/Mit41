@@ -15,6 +15,7 @@
         <h3>Форма оформлення купівлі</h3>
         <form method="post" action="">
             <input type="hidden" value="@Model.Id" name="BookId" />
+            <input type="hidden" value="1" name="CustomerId" />
             <h4>@Model.Author</h4>
             <h3>@Model.Name</h3>
             <h5>@Model.Price (грн.)</h5>
